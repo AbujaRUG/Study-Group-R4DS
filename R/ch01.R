@@ -2,22 +2,31 @@ library(palmerpenguins)
 library(ggthemes)
 library(tidyverse)
 
+# Data for this script
 palmerpenguins::penguins
 
-penguin_df <- penguins
+penguin_df <- palmerpenguins::penguins
+
+dplyr::glimpse()
+
+?glimpse
+
 
 dplyr::glimpse(penguin_df)
 
 # visualization
 
-?ggplot2::ggplot()
+ggplot2::ggplot()
+
+ggplot(data = penguin_df,mapping = aes(x = flipper_length_mm, y = body_mass_g))
 
 
 ggplot(data = penguins,
        mapping = aes(x = flipper_length_mm, y = body_mass_g))
 
 penguins |> 
-  ggplot(mapping = aes(x = flipper_length_mm, y = body_mass_g))
+  ggplot(mapping = aes(x = flipper_length_mm, y = body_mass_g))+
+  geom_
 
 ggplot(
   data = penguins
@@ -28,8 +37,10 @@ ggplot(
 ggplot(
   data = penguins,
   mapping = aes(x = flipper_length_mm, y = body_mass_g)
-) +
-  geom_point()
+)+
+  geom_point()+
+  labs(title = "Palmerpenguins visualization",
+       x= "flm", y="bmg")
 
 # Adding aesthetics and layers
 
@@ -44,7 +55,8 @@ ggplot(
   geom_smooth(method = "lm")
 
 
-gg <- ggplot(
+# saving your visuals as a graphic
+palmer_viz <- ggplot(
   data = penguins,
   mapping = aes(x = flipper_length_mm, 
                 y = body_mass_g, 
@@ -53,8 +65,8 @@ gg <- ggplot(
   geom_point() +
   geom_smooth(method = "lm")
 
-ggsave(filename = "viz/my_plot.png",plot = gg,
-       width = 250,height = 250, units = "px")
+ggsave(filename = "viz/my_plot.jpeg",plot = palmer_viz,
+       width = 500,height = 500, units = "px")
 
 
 ggplot(
@@ -107,13 +119,15 @@ ggplot(
 # What happens if you make a scatterplot of species vs. bill_depth_mm? 
 # What might be a better choice of geom?
 
-penguins |> count(species) |> ggplot(
-  mapping = aes(x=species, y=n)
+penguins |> 
+  count(species) |> 
+  ggplot(
+  mapping = aes(x=species, y=n, fill=species)
 ) +
   geom_bar(stat = "identity")
 
 
-  ggplot(
+ggplot(
   data = penguins,
   mapping = aes(x = species, y = bill_depth_mm)
 ) +
@@ -121,7 +135,7 @@ penguins |> count(species) |> ggplot(
  
 # Why does the following give an error and how would you fix it?
 #   
-  ggplot(data = penguins) +
+ggplot(data = penguins, aes()) +
   geom_point()
 
 # What does the na.rm argument do in geom_point()? 
